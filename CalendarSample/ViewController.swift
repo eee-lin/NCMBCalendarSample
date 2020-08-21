@@ -10,7 +10,7 @@ import UIKit
 //これ忘れずに!
 import FSCalendar
 import NCMB
-
+//TODO: ネスト解消
 class ViewController: UIViewController{
     // Q3: lodeData()する際に，どんなデータ構造にする?
     // Q4: カレンダーの日付/月を切り替える毎に下の表の値も変更して欲しい..

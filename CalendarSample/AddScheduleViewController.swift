@@ -8,7 +8,7 @@
 
 import UIKit
 import NCMB
-
+// TODO: メソッドのネストが深すぎる．．．要リファクタリング
 class AddScheduleViewController: UIViewController {
     let datePicker = UIDatePicker()
     //カレンダーで選択した日付を値渡しするための変数
