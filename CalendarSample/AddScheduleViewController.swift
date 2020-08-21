@@ -10,7 +10,6 @@ import UIKit
 import NCMB
 
 class AddScheduleViewController: UIViewController {
-    //Firebaseのデータベースを定義
     let datePicker = UIDatePicker()
     //カレンダーで選択した日付を値渡しするための変数
     var passedDate = Date()
@@ -24,16 +23,19 @@ class AddScheduleViewController: UIViewController {
     }
     
     @IBAction func saveSchedule(){
+        //Q5 スケジュールが既にあれば追加/なければ新規作成するロジックを記載
         //スケジュールを記入
         let query = NCMBQuery(className: "Schedules")
-        query?.whereKey("userId", equalTo: UserDefaults.standard.object(forKey: "userName"))
-        query?.whereKey("scheduledDate", equalTo: dateTextField.text!)
-        query?.findObjectsInBackground({ (result, error) in
+        query?.whereKey("userId", equalTo: UserDefaults.standard.object(forKey: "userId"))
+        query?.whereKey("scheduledDate", equalTo: self.dateTextField.text!)
+        query?.findObjectsInBackground({ (results, error) in
+            let resultsObject = results as! [NCMBObject]
+
             if error != nil {
                 print(error)
-            } else if result?.isEmpty == false {
+            } else if resultsObject.isEmpty == false {
                 //もし既に何か予定があれば，スケジュールに予定を追加
-                let eventObject = result![0] as! NCMBObject
+                let eventObject = results![0] as! NCMBObject
                 var events = eventObject.object(forKey: "events") as! [String]
                 events.append(self.eventTextField.text!)
                 eventObject.setObject(events, forKey: "events")

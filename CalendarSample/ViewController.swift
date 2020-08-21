@@ -12,6 +12,8 @@ import FSCalendar
 import NCMB
 
 class ViewController: UIViewController{
+    // Q3: lodeData()する際に，どんなデータ構造にする?
+    // Q4: カレンダーの日付/月を切り替える毎に下の表の値も変更して欲しい..
     //スケジュールモデルをインスタンス化(設計図を実体化)
     var schedule : Schedule!
     //日付をkey,schduleをvalueにした辞書型の配列を定義
@@ -35,7 +37,6 @@ class ViewController: UIViewController{
         scheduleTableView.dataSource = self
         //TableViewの不要な線を消す
         scheduleTableView.tableFooterView = UIView()
-        loadData()
     }
     override func viewWillAppear(_ animated: Bool) {
         loadData()
@@ -128,6 +129,7 @@ extension ViewController:UITableViewDelegate,UITableViewDataSource {
         let dateString = dateToString(date: selectedDate, format: DateFormatter.dateFormat(fromTemplate: "ydMMM(EEE)", options: 0, locale: Locale(identifier: "ja_JP"))!)
         if self.scheduledDates.contains(dateString) {
             cell.textLabel?.text = schedules[dateString]?.events[indexPath.row]
+            print(schedules[dateString]?.events[indexPath.row])
             return cell
         }
         return cell
@@ -137,6 +139,7 @@ extension ViewController:UITableViewDelegate,UITableViewDataSource {
 
 extension ViewController{
     func loadData(){
+        // TODO: 一緒に実装していこう
         //NCMBから値を取得
         let query = NCMBQuery(className: "Schedules")
         query?.whereKey("userId", equalTo: UserDefaults.standard.object(forKey: "userId"))

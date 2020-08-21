@@ -15,6 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let applicationKey = "e2f18f26d14ca2c4ef78824ad99e31f2ce2619a3712bf040e713b90994cf4aa6"
         let clientkey = "a463e24f898a3ec6f1a4c5e2fbc06848ca126b5cd453c7be4d84e93ff67beb5b"
         NCMB.setApplicationKey(applicationKey, clientKey: clientkey)
+        // Q1:userdefaultsを用いて，匿名ログイン時のuserIdを保存してください
+        // Additional Q:可能な限りリファクタリングしてください
         if UserDefaults.standard.object(forKey: "userId") == nil {
             NCMBUser.enableAutomaticUser()
             NCMBUser.automaticCurrentUser { (user, error) in
