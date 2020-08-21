@@ -62,14 +62,14 @@ extension ViewController:FSCalendarDelegate,FSCalendarDataSource{
         loadData()
     }
 
-    //日付の下にタイトルをつける関数
-    func calendar(_ calendar: FSCalendar!, subtitleFor date: Date) -> String?  {
-        let dateString = dateToString(date: date, format: DateFormatter.dateFormat(fromTemplate: "ydMMM(EEE)", options: 0, locale: Locale(identifier: "ja_JP"))!)
-        if self.scheduledDates.contains(dateString) {
-            return schedules[dateString]?.events.joined()
-        }
-        return ""
-    }
+//    //日付の下にタイトルをつける関数
+//    func calendar(_ calendar: FSCalendar!, subtitleFor date: Date) -> String?  {
+//        let dateString = dateToString(date: date, format: DateFormatter.dateFormat(fromTemplate: "ydMMM(EEE)", options: 0, locale: Locale(identifier: "ja_JP"))!)
+//        if self.scheduledDates.contains(dateString) {
+//            return schedules[dateString]?.events.joined()
+//        }
+//        return ""
+//    }
     //日付の下に点をつける関数
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
         let dateString = dateToString(date: date, format: DateFormatter.dateFormat(fromTemplate: "ydMMM(EEE)", options: 0, locale: Locale(identifier: "ja_JP"))!)
@@ -78,14 +78,14 @@ extension ViewController:FSCalendarDelegate,FSCalendarDataSource{
         }
         return 0
     }
-    //日付の下に画像を表示する関数(点と被ってしまうのでどちらかを用いる)
-    func calendar(_ calendar: FSCalendar!, imageFor date: Date) -> UIImage? {
-        let dateString = dateToString(date: date, format: DateFormatter.dateFormat(fromTemplate: "ydMMM(EEE)", options: 0, locale: Locale(identifier: "ja_JP"))!)
-        if self.scheduledDates.contains(dateString) {
-            return UIImage(systemName: "hare")
-        }
-        return UIImage()
-    }
+//    //日付の下に画像を表示する関数(点と被ってしまうのでどちらかを用いる)
+//    func calendar(_ calendar: FSCalendar!, imageFor date: Date) -> UIImage? {
+//        let dateString = dateToString(date: date, format: DateFormatter.dateFormat(fromTemplate: "ydMMM(EEE)", options: 0, locale: Locale(identifier: "ja_JP"))!)
+//        if self.scheduledDates.contains(dateString) {
+//            return UIImage(systemName: "hare")
+//        }
+//        return UIImage()
+//    }
     
     //カレンダーの月が変更した時に呼ばれる関数
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
