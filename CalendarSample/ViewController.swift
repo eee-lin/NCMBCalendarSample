@@ -13,11 +13,8 @@ import NCMB
 //TODO: ネスト解消
 class ViewController: UIViewController{
     // Q3: lodeData()する際に，どんなデータ構造にする?
-    // Q4: カレンダーの日付/月を切り替える毎に下の表の値も変更して欲しい..
+    // Q4: カレンダーの日付/月を切り替える毎に下の表の値も変更して欲しい..→loadData()をどこで呼ぶ?
     //スケジュールモデルをインスタンス化(設計図を実体化)
-    var schedule : Schedule!
-    //日付をkey,schduleをvalueにした辞書型の配列を定義
-    var schedules = [String:Schedule]()
 
     //タップした日付を入れる変数(初期値は今日)
     var selectedDate = Date()
@@ -58,15 +55,14 @@ extension ViewController:FSCalendarDelegate,FSCalendarDataSource{
     //日付をタップした際に呼ばれる関数
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         selectedDate = date
-        //tableViewの更新
-        loadData()
+
     }
 
     //日付の下にタイトルをつける関数
     func calendar(_ calendar: FSCalendar!, subtitleFor date: Date) -> String?  {
         let dateString = dateToString(date: date, format: DateFormatter.dateFormat(fromTemplate: "ydMMM(EEE)", options: 0, locale: Locale(identifier: "ja_JP"))!)
         if self.scheduledDates.contains(dateString) {
-            return schedules[dateString]?.events.joined()
+            return
         }
         return ""
     }
@@ -74,7 +70,7 @@ extension ViewController:FSCalendarDelegate,FSCalendarDataSource{
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
         let dateString = dateToString(date: date, format: DateFormatter.dateFormat(fromTemplate: "ydMMM(EEE)", options: 0, locale: Locale(identifier: "ja_JP"))!)
         if self.scheduledDates.contains(dateString) {
-            return schedules[dateString]!.howmanyEvents
+            return
         }
         return 0
     }
@@ -90,7 +86,6 @@ extension ViewController:FSCalendarDelegate,FSCalendarDataSource{
     //カレンダーの月が変更した時に呼ばれる関数
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
         selectedDate =  calendar.currentPage
-        loadData()
     }
     
 }
@@ -119,7 +114,7 @@ extension ViewController:UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let dateString = dateToString(date: selectedDate, format: DateFormatter.dateFormat(fromTemplate: "ydMMM(EEE)", options: 0, locale: Locale(identifier: "ja_JP"))!)
         if self.scheduledDates.contains(dateString) {
-            return schedules[dateString]?.howmanyEvents ?? 0
+            return
         }
         return 0
     }
@@ -128,7 +123,7 @@ extension ViewController:UITableViewDelegate,UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell")!
         let dateString = dateToString(date: selectedDate, format: DateFormatter.dateFormat(fromTemplate: "ydMMM(EEE)", options: 0, locale: Locale(identifier: "ja_JP"))!)
         if self.scheduledDates.contains(dateString) {
-            cell.textLabel?.text = schedules[dateString]?.events[indexPath.row]
+            cell.textLabel?.text =
             print(schedules[dateString]?.events[indexPath.row])
             return cell
         }
@@ -147,21 +142,7 @@ extension ViewController{
             if error != nil {
                 print(error)
             } else {
-                //ここでscheduleDates,schedulesを初期化しないと，loadData関数が呼ばれる度に要素が無限に増えてしまう
-                self.scheduledDates = []
-                self.schedules = [:]
-                for result in results as! [NCMBObject] {
-                    let date = result.object(forKey: "scheduledDate") as! String
-                    let events = result.object(forKey: "events") as! [String]
-                    let howmanyEvents = events.count
-                    //Scheduleモデルに値を格納して実体化する
-                    let completeSchedule = Schedule(date: date, events: events, howmanyEvents: howmanyEvents)
-                    self.scheduledDates.append(date)
-                    self.schedules.updateValue(completeSchedule, forKey: date)
-                }
-                //calendarとTableViewを更新
-                self.calendar.reloadData()
-                self.scheduleTableView.reloadData()
+                
             }
         })
     }
