@@ -71,7 +71,7 @@ extension ViewController:FSCalendarDelegate,FSCalendarDataSource{
     func calendar(_ calendar: FSCalendar!, subtitleFor date: Date) -> String?  {
         let dateString = dateToString(date: date, format: DateFormatter.dateFormat(fromTemplate: "ydMMM(EEE)", options: 0, locale: Locale(identifier: "ja_JP"))!)
         if self.scheduledDates.contains(dateString) {
-            return
+            return "日付の下に表示したい文字"
         }
         return ""
     }
@@ -80,7 +80,7 @@ extension ViewController:FSCalendarDelegate,FSCalendarDataSource{
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
         let dateString = dateToString(date: date, format: DateFormatter.dateFormat(fromTemplate: "ydMMM(EEE)", options: 0, locale: Locale(identifier: "ja_JP"))!)
         if self.scheduledDates.contains(dateString) {
-            return
+            return scheduledDates.count
         }
         return 0
     }
@@ -125,7 +125,7 @@ extension ViewController:UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let dateString = dateToString(date: selectedDate, format: DateFormatter.dateFormat(fromTemplate: "ydMMM(EEE)", options: 0, locale: Locale(identifier: "ja_JP"))!)
         if self.scheduledDates.contains(dateString) {
-            return
+            return scheduledDates.count
         }
         return 0
     }
@@ -134,7 +134,7 @@ extension ViewController:UITableViewDelegate,UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell")!
         let dateString = dateToString(date: selectedDate, format: DateFormatter.dateFormat(fromTemplate: "ydMMM(EEE)", options: 0, locale: Locale(identifier: "ja_JP"))!)
         if self.scheduledDates.contains(dateString) {
-            cell.textLabel?.text =
+            cell.textLabel?.text = scheduledDates[indexPath.row]
             
             return cell
         }

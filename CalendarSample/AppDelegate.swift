@@ -12,8 +12,8 @@ import NCMB
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let applicationKey = ""
-        let clientkey = ""
+        let applicationKey = "4420555b2c96d6e84ada5334b18b8b5b15b3b4c21bc45cdfb106b85031539a8f"
+        let clientkey = "93752228f0ac0b1f40cd22a33046a7c46a4608d7b71a5f4ac37a7622129c5088"
         NCMB.setApplicationKey(applicationKey, clientKey: clientkey)
         // Q1:userdefaultsを用いて，匿名ログイン時のuserIdを保存してください.また全てのユーザーに対してデータのアクセス権を与えるACL設定をしてください
         if UserDefaults.standard.object(forKey: "userId") == nil {
