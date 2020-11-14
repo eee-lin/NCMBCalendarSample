@@ -8,7 +8,7 @@
 
 import UIKit
 import NCMB
-// TODO: メソッドのネストが深すぎる．．．要リファクタリング
+
 class AddScheduleViewController: UIViewController {
     let datePicker = UIDatePicker()
     //カレンダーで選択した日付を値渡しするための変数
@@ -29,31 +29,9 @@ class AddScheduleViewController: UIViewController {
         query?.whereKey("userId", equalTo: UserDefaults.standard.object(forKey: "userId"))
         query?.whereKey("scheduledDate", equalTo: self.dateTextField.text!)
         query?.findObjectsInBackground({ (results, error) in
-            if error != nil {
-                print(error)
-            } else if results?.isEmpty == false {
-                //もし既に何か予定があれば，スケジュールに予定を追加
-                let eventObject = results![0] as! NCMBObject
-                var events = eventObject.object(forKey: "events") as! [String]
-                events.append(self.eventTextField.text!)
-                eventObject.setObject(events, forKey: "events")
-                eventObject.saveInBackground { (error) in
-                    if error != nil {
-                        print(error)
-                    }
-                }
-            } else {
-                //なければ予定を作成
-                let eventObject = NCMBObject(className: "Schedules")
-                eventObject?.setObject([self.eventTextField.text!], forKey: "events")
-                eventObject?.setObject(self.dateTextField.text!, forKey: "scheduledDate")
-                eventObject?.setObject(UserDefaults.standard.object(forKey: "userId"), forKey: "userId")
-                eventObject?.saveInBackground({ (error) in
-                    if error != nil {
-                        print(error)
-                    }
-                })
-            }
+            
+            
+            
         })
         // ①storyboardのインスタンス取得
         let storyboard: UIStoryboard = self.storyboard!
